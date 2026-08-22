@@ -29,6 +29,8 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
+    steps:
+        - run: echo "Deploy realizado com sucesso!"
 
       
 
