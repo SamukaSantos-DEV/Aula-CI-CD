@@ -8,12 +8,12 @@ jobs:
   teste:
     runs-on: ubuntu-latest
   
-    steps:
+    steps:  
       - name: Baixar o código do repositório
         uses: actions/checkout@v4
 
       - name: Configurar Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.12'
 
