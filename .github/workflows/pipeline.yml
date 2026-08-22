@@ -1,0 +1,5 @@
+name: Primeira pipeline
+
+on:
+  push:
+    branches: [main]
