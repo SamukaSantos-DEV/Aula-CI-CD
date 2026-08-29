@@ -1,16 +1,12 @@
-name: Primeira pipeline
+name: Primeira pipeline Python
 
 on:
   push:
     branches: [main]
 
 jobs:
-  python-tests:
+  testesoma:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./testPY
 
     steps:
       - name: Baixar o código do repositório
@@ -24,13 +20,66 @@ jobs:
       - name: Instalar dependências
         run: pip install pytest
 
-      - name: Executar testes Python
-        run: pytest -q
+      - name: Executar teste de soma
+        run: pytest testPY/test_soma.py
+
+  testesub:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: pip install pytest
+
+      - name: Executar teste de subtração
+        run: pytest testPY/test_sub.py
+
+  testemult:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: pip install pytest
+
+      - name: Executar teste de multiplicação
+        run: pytest testPY/test_mult.py
+
+  testediv:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: pip install pytest
+
+      - name: Executar teste de divisão
+        run: pytest testPY/test_div.py
 
   deploy:
-    needs: [python-tests]
+    needs: [testesoma, testesub, testemult, testediv]
     runs-on: ubuntu-latest
     steps:
       - name: Deploy
         run: echo "Deploy realizado com sucesso!"
-    

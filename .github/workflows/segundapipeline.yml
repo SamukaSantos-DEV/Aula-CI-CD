@@ -20,7 +20,7 @@ jobs:
           java-version: '21'
 
       - name: Compilar código
-        run: javac -d out src/Calculadora.java test/TesteSoma.java
+        run: javac -d out testJava/Calculadora.java testJava/TesteSoma.java
 
       - name: Executar teste de soma
         run: java -cp out TesteSoma
@@ -40,7 +40,7 @@ jobs:
           java-version: '21'
 
       - name: Compilar código
-        run: javac -d out src/Calculadora.java test/TesteSub.java
+        run: javac -d out testJava/Calculadora.java testJava/TesteSub.java
 
       - name: Executar teste de subtração
         run: java -cp out TesteSub
@@ -60,7 +60,7 @@ jobs:
           java-version: '21'
 
       - name: Compilar código
-        run: javac -d out src/Calculadora.java test/TesteMult.java
+        run: javac -d out testJava/Calculadora.java testJava/TesteMult.java
 
       - name: Executar teste de multiplicação
         run: java -cp out TesteMult
@@ -80,7 +80,7 @@ jobs:
           java-version: '21'
 
       - name: Compilar código
-        run: javac -d out src/Calculadora.java test/TesteDiv.java
+        run: javac -d out testJava/Calculadora.java testJava/TesteDiv.java
 
       - name: Executar teste de divisão
         run: java -cp out TesteDiv
