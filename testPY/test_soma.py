@@ -1,4 +1,4 @@
-from app import Soma
+from testPY.app import Soma
 
 def test_soma():
     assert Soma(2, 3) == 5

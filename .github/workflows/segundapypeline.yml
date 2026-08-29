@@ -1,0 +1,95 @@
+name: Segunda pipeline Java
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+
+  testesoma:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Compilar código
+        run: javac -d out src/Calculadora.java test/TesteSoma.java
+
+      - name: Executar teste de soma
+        run: java -cp out TesteSoma
+
+
+  testesub:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Compilar código
+        run: javac -d out src/Calculadora.java test/TesteSub.java
+
+      - name: Executar teste de subtração
+        run: java -cp out TesteSub
+
+
+  testemult:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Compilar código
+        run: javac -d out src/Calculadora.java test/TesteMult.java
+
+      - name: Executar teste de multiplicação
+        run: java -cp out TesteMult
+
+
+  testediv:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Compilar código
+        run: javac -d out src/Calculadora.java test/TesteDiv.java
+
+      - name: Executar teste de divisão
+        run: java -cp out TesteDiv
+
+
+  deploy:
+    needs: [testesoma, testesub, testemult, testediv]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy
+        run: echo "Deploy realizado com sucesso!"
