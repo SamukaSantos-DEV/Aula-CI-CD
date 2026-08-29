@@ -1,0 +1,94 @@
+name: Pipeline CI Java - Linter, Cobertura e Segurança
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  linter-checkstyle:
+    name: 1. Análise de Código (Linter Checkstyle)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Baixar Checkstyle CLI
+        run: |
+          curl -sL https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.15.0/checkstyle-10.15.0-all.jar -o checkstyle.jar
+
+      - name: Executar Linter (Checkstyle)
+        run: |
+          java -jar checkstyle.jar -c checkstyle.xml testJava/
+
+  unit-tests-coverage:
+    name: 2. Testes Unitários e Cobertura Mínima (JaCoCo 80%)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Baixar JaCoCo Agent e CLI
+        run: |
+          curl -sL https://repo1.maven.org/maven2/org/jacoco/org.jacoco.cli/0.8.11/org.jacoco.cli-0.8.11-nodeps.jar -o jacococli.jar
+          curl -sL https://repo1.maven.org/maven2/org/jacoco/org.jacoco.agent/0.8.11/org.jacoco.agent-0.8.11-runtime.jar -o jacocoagent.jar
+
+      - name: Compilar Código Java
+        run: |
+          javac -d out testJava/Calculadora.java testJava/TesteSoma.java testJava/TesteSub.java testJava/TesteMult.java testJava/TesteDiv.java
+
+      - name: Executar Testes Unitários com Agente JaCoCo
+        run: |
+          java -javaagent:jacocoagent.jar=destfile=jacoco.exec -cp out TesteSoma
+          java -javaagent:jacocoagent.jar=destfile=jacoco.exec,append=true -cp out TesteSub
+          java -javaagent:jacocoagent.jar=destfile=jacoco.exec,append=true -cp out TesteMult
+          java -javaagent:jacocoagent.jar=destfile=jacoco.exec,append=true -cp out TesteDiv
+
+      - name: Validar Cobertura Mínima (Limite de 80%)
+        run: |
+          java -jar jacococli.jar check jacoco.exec --classfiles out --rule element=BUNDLE,limit=LINE:COVEREDRATIO=0.80
+
+      - name: Gerar Relatório de Cobertura JaCoCo (HTML & XML)
+        if: always()
+        run: |
+          java -jar jacococli.jar report jacoco.exec --classfiles out --sourcefiles testJava --html coverage-java-html --xml coverage-java.xml
+
+      - name: Upload Relatório de Cobertura Java (Artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-cobertura-java
+          path: |
+            coverage-java.xml
+            coverage-java-html/
+
+  security-scan:
+    name: 3. Análise de Segurança (Secret Scanning & SAST)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Varredura de Segurança Trivy (Chaves de API e Segredos Expostos)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'HIGH,CRITICAL'

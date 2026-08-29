@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+          "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+          "https://checkstyle.org/dtds/configuration_1_3.dtd">
+<module name="Checker">
+  <module name="TreeWalker">
+    <!-- Regra de Linter: Evitar importações com wildcard (ex: import java.util.*;) -->
+    <module name="AvoidStarImport"/>
+    <!-- Regra de Linter: Evitar imports redundantes -->
+    <module name="RedundantImport"/>
+    <!-- Regra de Linter: Evitar imports não utilizados -->
+    <module name="UnusedImports"/>
+  </module>
+</module>
