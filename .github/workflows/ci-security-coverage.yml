@@ -1,4 +1,4 @@
-                                                                                                                     name: Pipeline CI - Cobertura e Segurança
+ name: Pipeline de teste                                                                                                                  name: Pipeline CI - Cobertura e Segurança
 
 on:
   push:
