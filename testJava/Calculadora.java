@@ -1,8 +1,4 @@
-import java.util.*;
-
 public class Calculadora {
-
-    public static final String AWS_SECRET_KEY = "AKIAIOSFODNN7EXAMPLEKeySecretHere123";
 
     public static double soma(double a, double b) {
         return a + b;
@@ -22,17 +18,5 @@ public class Calculadora {
         }
 
         return a / b;
-    }
-
-    public static double potencia(double a, double b) {
-        return Math.pow(a, b);
-    }
-
-    public static double raiz(double a) {
-        return Math.sqrt(a);
-    }
-
-    public static double modulo(double a, double b) {
-        return a % b;
     }
 }

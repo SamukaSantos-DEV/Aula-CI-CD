@@ -4,7 +4,7 @@ public class TesteSoma {
 
         double resultado = Calculadora.soma(10, 5);
 
-        if (resultado != 999) {
+        if (resultado != 15) {
             throw new AssertionError(
                 "Teste de soma falhou. Esperado: 15 | Obtido: " + resultado
             );
