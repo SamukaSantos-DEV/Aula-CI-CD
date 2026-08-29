@@ -10,6 +10,13 @@ public class TesteDiv {
             );
         }
 
+        try {
+            Calculadora.divisao(10, 0);
+            throw new AssertionError("Teste de divisão por zero falhou.");
+        } catch (ArithmeticException e) {
+            // Sucesso na captura da exceção de divisão por zero
+        }
+
         System.out.println("Teste de divisão realizado com sucesso!");
     }
 }

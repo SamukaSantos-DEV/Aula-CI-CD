@@ -61,7 +61,7 @@ jobs:
 
       - name: Gerar Relatório de Cobertura JaCoCo (HTML & XML)
         run: |
-          java -jar jacococli.jar report jacoco.exec --classfiles out --sourcefiles testJava --html coverage-java-html --xml coverage-java.xml
+          java -jar jacococli.jar report jacoco.exec --classfiles out/Calculadora.class --sourcefiles testJava --html coverage-java-html --xml coverage-java.xml
 
       - name: Validar Cobertura Mínima (Limite de 80%)
         run: |
