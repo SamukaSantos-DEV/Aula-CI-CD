@@ -59,14 +59,13 @@ jobs:
           java -javaagent:jacocoagent.jar=destfile=jacoco.exec,append=true -cp out TesteMult
           java -javaagent:jacocoagent.jar=destfile=jacoco.exec,append=true -cp out TesteDiv
 
-      - name: Validar Cobertura Mínima (Limite de 80%)
-        run: |
-          java -jar jacococli.jar check jacoco.exec --classfiles out --rule element=BUNDLE,limit=LINE:COVEREDRATIO=0.80
-
       - name: Gerar Relatório de Cobertura JaCoCo (HTML & XML)
-        if: always()
         run: |
           java -jar jacococli.jar report jacoco.exec --classfiles out --sourcefiles testJava --html coverage-java-html --xml coverage-java.xml
+
+      - name: Validar Cobertura Mínima (Limite de 80%)
+        run: |
+          python -c "import xml.etree.ElementTree as ET, sys; tree = ET.parse('coverage-java.xml'); root = tree.getroot(); covered = sum(int(c.attrib['covered']) for c in root.findall('./counter[@type=\"LINE\"]')); missed = sum(int(c.attrib['missed']) for c in root.findall('./counter[@type=\"LINE\"]')); total = covered + missed; ratio = covered / total if total > 0 else 0; print(f'Cobertura de Linha JaCoCo: {ratio*100:.2f}% ({covered}/{total} linhas)'); sys.exit(1 if ratio < 0.80 else 0)"
 
       - name: Upload Relatório de Cobertura Java (Artifact)
         if: always()
