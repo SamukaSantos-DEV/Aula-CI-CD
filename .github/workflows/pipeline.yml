@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+env:
+  PYTHONPATH: .
+
 jobs:
   testesoma:
     runs-on: ubuntu-latest
@@ -21,7 +24,7 @@ jobs:
         run: pip install pytest
 
       - name: Executar teste de soma
-        run: pytest testPY/test_soma.py
+        run: python -m pytest testPY/test_soma.py
 
   testesub:
     runs-on: ubuntu-latest
@@ -39,7 +42,7 @@ jobs:
         run: pip install pytest
 
       - name: Executar teste de subtração
-        run: pytest testPY/test_sub.py
+        run: python -m pytest testPY/test_sub.py
 
   testemult:
     runs-on: ubuntu-latest
@@ -57,7 +60,7 @@ jobs:
         run: pip install pytest
 
       - name: Executar teste de multiplicação
-        run: pytest testPY/test_mult.py
+        run: python -m pytest testPY/test_mult.py
 
   testediv:
     runs-on: ubuntu-latest
@@ -75,7 +78,7 @@ jobs:
         run: pip install pytest
 
       - name: Executar teste de divisão
-        run: pytest testPY/test_div.py
+        run: python -m pytest testPY/test_div.py
 
   deploy:
     needs: [testesoma, testesub, testemult, testediv]
