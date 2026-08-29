@@ -5,10 +5,14 @@ on:
     branches: [main]
 
 jobs:
-  testesoma:
+  python-tests:
     runs-on: ubuntu-latest
-  
-    steps:  
+
+    defaults:
+      run:
+        working-directory: ./testPY
+
+    steps:
       - name: Baixar o código do repositório
         uses: actions/checkout@v4
 
@@ -20,75 +24,13 @@ jobs:
       - name: Instalar dependências
         run: pip install pytest
 
-      - name: Executar testes
-        run: pytest test_soma.py
-
-  testesub:
-  
-    runs-on: ubuntu-latest
-  
-    steps:  
-      - name: Baixar o código do repositório
-        uses: actions/checkout@v4
-
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Instalar dependências
-        run: pip install pytest
-
-      - name: Executar testes
-        run: pytest test_sub.py
-  
-  testemult:
-    runs-on: ubuntu-latest
-  
-    steps:  
-      - name: Baixar o código do repositório
-        uses: actions/checkout@v4
-
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Instalar dependências
-        run: pip install pytest
-
-      - name: Executar testes
-        run: pytest test_mult.py
-  
-  testediv:
-    runs-on: ubuntu-latest
-  
-    steps:  
-      - name: Baixar o código do repositório
-        uses: actions/checkout@v4
-
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Instalar dependências
-        run: pip install pytest
-
-      - name: Executar testes
-        run: pytest test_div.py
-
-      
+      - name: Executar testes Python
+        run: pytest -q
 
   deploy:
-    needs: [testesoma, testesub, testemult, testediv]
+    needs: [python-tests]
     runs-on: ubuntu-latest
     steps:
-        - run: echo "Deploy realizado com sucesso!"
-
-      
-
-
-
-
+      - name: Deploy
+        run: echo "Deploy realizado com sucesso!"
     
