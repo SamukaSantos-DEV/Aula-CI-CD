@@ -26,7 +26,7 @@ jobs:
           cache: 'pip'
           
       - name: Instalar dependências
-        run: pip install pytest
+        run: pip install -r requirements.txt
 
       - name: Executar teste de soma
         run: python -m pytest testPY/test_soma.py
@@ -44,7 +44,7 @@ jobs:
           python-version: '3.12'
 
       - name: Instalar dependências
-        run: pip install pytest
+        run: pip install -r requirements.txt
 
       - name: Executar teste de subtração
         run: python -m pytest testPY/test_sub.py
@@ -62,7 +62,7 @@ jobs:
           python-version: '3.12'
 
       - name: Instalar dependências
-        run: pip install pytest
+        run: pip install -r requirements.txt
 
       - name: Executar teste de multiplicação
         run: python -m pytest testPY/test_mult.py
@@ -80,7 +80,7 @@ jobs:
           python-version: '3.12'
 
       - name: Instalar dependências
-        run: pip install pytest
+        run: pip install -r requirements.txt
 
       - name: Executar teste de divisão
         run: python -m pytest testPY/test_div.py
