@@ -21,9 +21,9 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-
+          
   testesoma:
-      strategy: 
+    strategy: 
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ['3.11', '3.12']
@@ -106,4 +106,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy
-        run: echo "Deploy realizado com sucesso!"
+          run: echo "Deploy realizado com sucesso!"
