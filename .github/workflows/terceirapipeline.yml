@@ -1,0 +1,75 @@
+name: Primeira pipeline Python
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+
+    Qualidade:
+        name: SonarQube
+        runs-on: windows-latest
+        steps:
+          - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+            with:
+                fetch-depth: 0  
+          - name: SonarQube Scan
+            uses: SonarSource/sonarqube-scan-action@7006c4492b2e0ee0f816d36501671557c97f5995
+            env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    Build:
+        name: Buildar e gerar artefato
+        runs-on: ubuntu-latest
+
+        steps:
+
+        - name: Baixar o código do repositório
+          uses: actions/checkout@v4
+
+        - name: Gerar artefato ZIP
+          run: zip -r artefato.zip *
+            
+        - name: Publicar artefato
+          uses: actions/upload-artifact@v4
+          with:
+              name: código buildade
+              path: pipeline-demo.zip
+
+    
+    Teste:
+        strategy: 
+            matrix:
+                os: [ubuntu-latest]
+                python-version: ['3.11', '3.12']
+        runs-on: ${{ matrix.os }}
+
+        steps:
+        - name: Baixar artefato
+          uses: actions/download-artifact@v4
+          with:
+              name: código buildado
+
+        - name: Extrair artefato
+          run: unzip pipeline-demo.zip
+
+        - name: Configurar Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: ${{ matrix.python-version }}
+            cache: 'pip'
+            
+        - name: Instalar dependências
+          run: pip install -r requirements.txt
+
+        - name: Executar teste de soma
+          run: python -m pytest testPY/test_soma.py
+
+    Deploy:
+        needs: [Teste]
+        runs-on: ubuntu-latest
+        steps:
+          - name: Deploy
+            run: echo "Deploy realizado com sucesso!"
+
+    
