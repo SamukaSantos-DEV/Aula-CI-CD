@@ -38,6 +38,7 @@ jobs:
 
     
     Teste:
+        needs: [Build]
         strategy: 
             matrix:
                 os: [ubuntu-latest]
