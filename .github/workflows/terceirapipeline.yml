@@ -28,7 +28,7 @@ jobs:
           uses: actions/checkout@v4
 
         - name: Gerar artefato ZIP
-          run: zip -r artefato.zip *
+          run: zip -r pipeline-demo.zip *
             
         - name: Publicar artefato
           uses: actions/upload-artifact@v4
