@@ -69,7 +69,12 @@ jobs:
     Deploy:
         needs: [Teste]
         runs-on: ubuntu-latest
+        
         environment:
             name: production
+
+        steps:
+          - name: Deploy
+            run: echo "Deploy realizado com sucesso!"
 
     
