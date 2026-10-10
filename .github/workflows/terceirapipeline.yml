@@ -36,13 +36,14 @@ jobs:
           username: ${{ vars.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
 
+
+
       - name: Build e Push da Imagem
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: samukasantos12/cicdpipeline:latest
-
 
   Teste:
     name: Testar aplicação no container
@@ -59,6 +60,11 @@ jobs:
       - name: Rodar testes dentro do Container
         run: docker run --rm samukasantos12/cicdpipeline:latest python -m pytest testPY/test_soma.py
 
+      - name: Subir Ambiente de Teste 
+        run: docker compose up -d
+
+      - name: Validar Comunicação (Ping) 
+        run: docker compose exec -T web ping -c 1 servico-vizinho
 
   Deploy:
     needs: Teste

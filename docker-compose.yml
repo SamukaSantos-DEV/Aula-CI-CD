@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    image: blog-pessoal:latest
+
+  servico-vizinho:
+    image: alpine
+    command: sleep infinity
+
+
