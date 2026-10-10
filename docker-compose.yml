@@ -1,10 +1,9 @@
 services:
-  web:
-    build: .
-    image: blog-pessoal:latest
+  cicdpipeline:
+    image: samukasantos12/cicdpipeline:latest
+    command: ["python", "-m", "http.server", "8000", "--bind", "0.0.0.0"]
 
   servico-vizinho:
     image: alpine
     command: sleep infinity
-
 

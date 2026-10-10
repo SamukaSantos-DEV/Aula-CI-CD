@@ -67,7 +67,7 @@ jobs:
         run: docker compose up -d --pull always
 
       - name: Validar Comunicação (Ping) 
-        run: docker compose exec -T servico-vizinho ping -c 1 web
+        run: docker compose exec -T servico-vizinho ping -c 1 cicdpipeline
 
   Deploy:
     needs: Teste
