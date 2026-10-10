@@ -64,10 +64,10 @@ jobs:
         run: docker run --rm samukasantos12/cicdpipeline:latest python -m pytest testPY/test_soma.py
 
       - name: Subir Ambiente de Teste 
-        run: docker compose up -d
+        run: docker compose up -d --pull always
 
       - name: Validar Comunicação (Ping) 
-        run: docker compose exec -T web ping -c 1 servico-vizinho
+        run: docker compose exec -T servico-vizinho ping -c 1 web
 
   Deploy:
     needs: Teste
